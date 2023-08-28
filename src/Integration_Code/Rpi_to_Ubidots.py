@@ -16,10 +16,10 @@ global variables
 connected = False  # Stores the connection status
 BROKER_ENDPOINT = "industrial.api.ubidots.com"
 TLS_PORT = 1883  # MQTT port
-MQTT_USERNAME = ""  # Put here your Ubidots TOKEN
+MQTT_USERNAME = "BBFF-1Y8KgD6wZJMayaDha9g4v5dhCEh3uE"  # Put here your Ubidots TOKEN
 MQTT_PASSWORD = ""  # Leave this in blank
 TOPIC = "/v1.6/devices/"
-DEVICE_LABEL = "" #Change this to your device label
+DEVICE_LABEL = "maverick" #Change this to your device label
 
 #Parameter DHT 11
 sensor = Adafruit_DHT.DHT11
