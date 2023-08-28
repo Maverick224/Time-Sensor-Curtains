@@ -10,17 +10,23 @@ import random
 import RPi.GPIO as GPIO
 from gpiozero import Button
 
+
 '''
 global variables
 '''
 # Motor parameter
-mode=GPIO.getmode()
-Forward=23
-Backward=24
-sleeptime=1
+in1 = 24
+in2 = 23
+en = 25
+temp1 = 1
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(Forward, GPIO.OUT)
-GPIO.setup(Backward, GPIO.OUT)
+GPIO.setup(in1, GPIO.OUT)
+GPIO.setup(in2, GPIO.OUT)
+GPIO.setup(en, GPIO.OUT)
+GPIO.output(in1, GPIO.LOW)
+GPIO.output(in2, GPIO.LOW)
+p = GPIO.PWM(en, 1000)
 
 #Button parameter
 button1 = Button(14, bounce_time=1)
@@ -30,10 +36,10 @@ button2 = Button(15, bounce_time=1)
 connected = False  # Stores the connection status
 BROKER_ENDPOINT = "industrial.api.ubidots.com"
 TLS_PORT = 1883  # MQTT port
-MQTT_USERNAME = ""  # Put here your Ubidots TOKEN
+MQTT_USERNAME = "BBFF-1Y8KgD6wZJMayaDha9g4v5dhCEh3uE"  # Put here your Ubidots TOKEN
 MQTT_PASSWORD = ""  # Leave this in blank
 TOPIC = "/v1.6/devices/"
-DEVICE_LABEL = "(device label)/#" #Change this to your device label
+DEVICE_LABEL = "maverick" #Change this to your device label
 
 '''
 Functions to process incoming and outgoing streaming
@@ -93,7 +99,7 @@ def connect(mqtt_client, mqtt_username, mqtt_password, broker_endpoint, port):
     return True
 
 def on_message(client, userdata, message):
-    if message.topic == "/v1.6/devices/mentor_ham/curtain-command/lv":
+    if message.topic == "/v1.6/devices/maverick/curtain-command/lv":
         print("incoming data: " ,str(message.payload.decode("utf-8")))
         command = str(message.payload.decode("utf-8"))
         if command == "1.0":
@@ -107,3 +113,4 @@ if __name__ == '__main__':
     mqtt_client = mqttClient.Client()
     while True:
         connect(mqtt_client, MQTT_USERNAME,MQTT_PASSWORD, BROKER_ENDPOINT, TLS_PORT)
+
